@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Bootstrap Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+
+  <body>
+
+    <div class="container-fluid">
+	<div class="row">
+		<div class="col-md-12">
+			<h3 class="text-center text-success">
+				Comics
+			</h3>
+		</div>
+	</div>
+	<div class="row" id='bookdiv'>
+		
+		
+		
+	</div>
+	<div class="row">
+		<div class="col-md-12">
+			<button type="button" class="btn btn-info btn-block" onclick='getbooks()'>
+				Default
+			</button>
+			<ul class="pagination pagination-lg">
+				<li>
+					<a href="#">Prev</a>
+				</li>
+				<li>
+					<a href="#">1</a>
+				</li>
+				<li>
+					<a href="#">2</a>
+				</li>
+				<li>
+					<a href="#">3</a>
+				</li>
+				<li>
+					<a href="#">4</a>
+				</li>
+				<li>
+					<a href="#">5</a>
+				</li>
+				<li>
+					<a href="#">Next</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+</div>
+
+<form method="post" enctype="multipart/form-data" action="/upload">
+    <input type="file" name="file">
+    <input type="submit" value="Submit">
+</form>
+  </body>
+</html>
+
+<script>
+var page=1;
+function getbooks(){
+
+$.ajax({
+   type: "POST",
+   data: {"page": page },
+   url: "http://localhost:3000/getbooks/",
+   success: function(result) {
+    		obj = JSON.parse(result);
+			page++;
+    		$('#bookdiv').append('<div class="col-md-3"><img  src='+obj[0].cover+' class="img-thumbnail"><address><strong>'+obj[0].name+'</strong><br>'+obj[0].year+'<button type="button" class="btn btn-info btn-block">more</button></div>')
+			
+    	}
+});
+
+}
+
+
+$( document ).ready(function() {
+  getbooks();
+});
+
+</script>
